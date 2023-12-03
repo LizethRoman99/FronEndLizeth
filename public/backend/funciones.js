@@ -164,7 +164,7 @@ const registrarProveedor= () => {
         })
         .then((res) => res.json())//Obtener respuesta de la petición
         .then(json => {
-            console.log(json.msg)//Imprimir el mensaje de la transacción
+            alert(json.msg)//Imprimir el mensaje de la transacción
            
         })
     }
