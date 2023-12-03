@@ -227,9 +227,9 @@ function validarFormulario() {
     // Si todos los campos son válidos, permite el envío del formulario
     // De lo contrario, muestra un mensaje de error y no envía el formulario
     if (todosLosCamposSonValidos()) {
-        alert("Formulario enviado correctamente");
+      
     } else {
-        alert("Corrija los errores antes de enviar el formulario");
+        Swal.fire("corrige antes de enviar los datos ");
     }
 }
 

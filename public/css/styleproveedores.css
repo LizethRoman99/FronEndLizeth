@@ -257,12 +257,12 @@ table.table-orientacion .camposListar {
 
 /* Estilo para entrada válida */
 .btnInput.valido {
-    border: 3px solid #34ed5f;
+    border: 1px solid #34ed5f;
 }
 
 /* Estilo para entrada inválida */
 .btnInput.invalido {
-    border: 3px solid #dc3545;
+    border: 1px solid #dc3545;
 }
 
 /* Estilo para mensaje de error */

@@ -1,6 +1,8 @@
 const url = 'https://proveedoresapi2.onrender.com/empleados';
 
-
+const regresarListar = () => {
+    window.location.href = '/listarempleados';
+}                                 
 const listarEmpleados= async () => {
     // Objeto del html donde se desplegará la información
     let objectId = document.getElementById('contenido');
@@ -117,7 +119,16 @@ const registrarEmpleado= () => {
         })
         .then((res) => res.json())//Obtener respuesta de la petición
         .then(json => {
-            alert(json.msg);//Imprimir el mensaje de la transacción
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: (json.msg),
+                showConfirmButton: false,
+                timer: 1500
+              });
+              setTimeout(() => {
+                regresarListar();
+            }, 1000);//Imprimir el mensaje de la transacción
            
         })
     }
@@ -165,8 +176,18 @@ const actualizarEmpleado= () => {
         .then((res) => res.json())//Obtener respuesta de la petición
         .then(json => {
             console.log(json); 
-            alert(json.msg)//Imprimir el mensaje de la transacción
-            listarEmpleados();
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: (json.msg),
+                showConfirmButton: false,
+                timer: 1500
+              });
+              setTimeout(() => {
+                regresarListar();
+            }, 1000);//Imprimir el mensaje de la transacción
+           //Imprimir el mensaje de la transacción
+            
         })
     }
 
@@ -241,26 +262,45 @@ async function eliminarEmpleado(documento) {
         console.log('Empleado  eliminado:', data.msg);
 
         // Puedes mostrar un mensaje de éxito al usuario si es necesario
-        alert('Proveedor eliminado exitosamente');
+        Swal.fire({
+            position: "center",
+            icon: "success",
+            title: (data.msg),
+            showConfirmButton: false,
+            timer: 1500
+          });
 
         // Puedes realizar otras acciones aquí si es necesario
     } catch (error) {
         console.error('Error al eliminar empleado:', error.message);
         // Puedes mostrar un mensaje de error al usuario si es necesario
-        alert('Error al eliminar empleado');
+        Swal.fire({
+            position: "center",
+            icon: "success",
+            title: (json.msg),
+            showConfirmButton: false,
+            timer: 1500
+          });
+          setTimeout(() => {
+            regresarListar();
+        }, 1000);
         // Puedes manejar errores aquí según tus necesidades
     }
 }
 
 function confirmarEliminar(documento) {
-    const confirmacion = confirm('¿Estás seguro de que deseas eliminar este empleado?');
-
-    if (confirmacion) {
-        // Llamar a la función eliminarProveedor con el nit del proveedor
-        eliminarEmpleado(documento);
-    } else {
-        console.log('Eliminación cancelada por el usuario.');
-    }
+    Swal.fire({
+        title: "¿Estás seguro de que deseas eliminar este proveedor?",        
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "si, Cancelar!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+            eliminarEmpleado (documento);
+        }
+      });
 }
 
 

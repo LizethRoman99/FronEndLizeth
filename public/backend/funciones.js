@@ -135,7 +135,16 @@ const registrarProveedor= () => {
         })
         .then((res) => res.json())//Obtener respuesta de la petición
         .then(json => {
-            alert(json.msg)//Imprimir el mensaje de la transacción
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: (json.msg),
+                showConfirmButton: false,
+                timer: 1500
+              });
+              setTimeout(() => {
+                regresarListar();
+            }, 1000);////Imprimir el mensaje de la transacción
            
         })
     }
@@ -191,8 +200,16 @@ const actualizarProveedor= () => {
         .then((res) => res.json())//Obtener respuesta de la petición
         .then(json => {
             console.log(json); 
-            alert(json.msg)//Imprimir el mensaje de la transacción
-            listarProveedores();
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: (json.msg),
+                showConfirmButton: false,
+                timer: 1500
+              });
+              setTimeout(() => {
+                regresarListar();
+            }, 1000);
         })
     }
 
@@ -264,7 +281,13 @@ async function eliminarProveedor(nit) {
         console.log('Proveedor eliminado:', data.msg);
 
         // Puedes mostrar un mensaje de éxito al usuario si es necesario
-        alert('Proveedor eliminado exitosamente');
+        Swal.fire({
+            position: "center",
+            icon: "success",
+            title: (data.msg),
+            showConfirmButton: false,
+            timer: 1500
+          });
 
         // Puedes realizar otras acciones aquí si es necesario
     } catch (error) {
@@ -276,14 +299,18 @@ async function eliminarProveedor(nit) {
 }
 
 function confirmarEliminar(nit) {
-    const confirmacion = confirm('¿Estás seguro de que deseas eliminar este proveedor?');
-
-    if (confirmacion) {
-        // Llamar a la función eliminarProveedor con el nit del proveedor
-        eliminarProveedor(nit);
-    } else {
-        console.log('Eliminación cancelada por el usuario.');
-    }
+    Swal.fire({
+        title: "¿Estás seguro de que deseas eliminar este proveedor?",        
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+            eliminarProveedor(nit);
+        }
+      });
 }
 
 // Ejemplo de uso:

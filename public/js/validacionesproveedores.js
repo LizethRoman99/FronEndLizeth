@@ -3,7 +3,7 @@ function validarNombreProveedor() {
     var mensajeError = document.getElementById('mensajeError');
 
     // Expresión regular para validar que solo contiene letras y espacios
-    var regex = /^[A-Z][a-zA-Z\s]{10,49}$/
+    var regex =  /^[A-Z][a-zA-ZñÑ\s]{9,48}$/
 
 
     if (regex.test(inputNombreProveedor.value)) {
@@ -40,7 +40,8 @@ function validarDireccion() {
     var mensajeErrorDireccion = document.getElementById('mensajeErrorDireccion');
 
     // Expresión regular básica para validar una dirección en Colombia
-    var regexDireccion = /^(Calle|Avenida|Carrera|Transversal)\s\d+\s#\s\d+-\d+$/
+    var regexDireccion =/(?=(.*[0-9]))(?=.*[\!@#$%^&*()\\[\]{}\-_+=|:;"'<>,./?])(?=.*[a-z])(?=(.*[A-Z]))(?=(.*)).{8,}/
+
 
 
     if (inputDireccion.value.trim() === '') {
@@ -99,7 +100,7 @@ function validarNombreContacto() {
     var mensajeError = document.getElementById('mensajeErrorcontacto');
 
     // Expresión regular para validar que solo contiene letras y espacios
-    var regex = /^[A-Z][a-zA-Z\s]{10,49}$/
+    var regex =  /^[A-Z][a-zA-ZñÑ\s]{9,48}$/
 
 
     if (regex.test(inputNombrecontacto.value)) {
