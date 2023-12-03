@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link rel="stylesheet" href="../css/empleados.css">
+  <link rel="stylesheet" href="../css/estilosgeneral.css">
+
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+  </style>
+
+
+
+
+
+
+  <title>Empleados</title>
+</head>
+
+
+
+<body class="bodybg">
+  {{> header title="Empleados"}}
+
+
+  <div class="container"> <!--Contenedor Padre-->
+
+
+    <form class="formularioInt">
+      <!--Contenedor Hijo (AQUÍ ESTÁ NETAMENTE EL FORMULARIO)-->
+
+      <h1 class="textoh1">Registrar Empleado</h1>
+      <div class="row">
+        <div class="col-md-6">
+
+          <div class="mb-3 form-group">
+            <label for="nombreCompleto" class="form-label fontTtitle">Nombre Completo <span
+                class="text-danger">*</span></label>
+            <input type="text" class="form-control btnInput" name="nombreCompleto" id="nombreCompleto" oninput="validarNombre()">
+             <small id="nombreHelp"></small>
+            <div id="mensajeError" class="mensajeError"></div>
+          </div>
+
+          <div class="mb-4 form-group">
+            <label for="documento" class="form-label fontTtitle">Documento<span class="text-danger">*</span></label>
+            <input type="text" class="form-control btnInput" name="documento" id="documento" oninput="validarCedula()">
+             <small id="documentoHelp"></small>
+            <div id="mensajeErrorCedula" class="mensajeError"></div>
+          </div>
+
+          <div class="mb-4 form-group">
+            <label for="celular" class="form-label fontTtitle">Celular<span class="text-danger">*</span></label>
+            <input type="text" class="form-control btnInput" name="celular" id="celular" oninput="validarCelular()">
+             <small id="celularHelp"></small>
+            <div id="mensajeErrorCelular" class="mensajeError"></div>
+          </div>
+
+          <div class="mb-4 form-group">
+            <label for="contraseña" class="form-label fontTtitle">Contraseña<span class="text-danger">*</span></label>
+            <input type="password" class="form-control btnInput" name="contraseña" id="contraseña"
+              oninput="validarContraseña()">
+            <div id="mensajeErrorContraseña" class="mensajeError"></div>
+          </div>
+
+
+          <div class="mb-4 form-group">
+            <label for="confirmacionContraseña" class="form-label fontTtitle">Confirmación de contraseña<span
+                class="text-danger">*</span></label>
+            <input type="password" class="form-control btnInput" name="confirmacionContraseña"
+              id="confirmacionContraseña" oninput="validarContraseña()">
+            <div id="mensajeErrorConfirmacion" class="mensajeError"></div>
+          </div>
+
+
+
+        </div>
+        <div class="col-md-6 form2">
+          
+       
+
+          <div class="mb-4 form-group">
+            <label for="fechaNacimiento" class="form-label fontTtitle">Fecha de nacimiento<span
+                class="text-danger">*</span></label>
+            <input type="date" class="form-control btnInput" name="fechaNacimiento" id="fechaNacimiento"
+              oninput="validarfechanacimiento()">
+               <small id="fechanaHelp"></small>
+            <div id="mensajeErrorFechaNacimiento" class="mensajeError"></div>
+          </div>
+       <div class="mb-4 form-group">
+            <label for="fechacontratacion" class="form-label fontTtitle">Fecha de contratación<span
+                class="text-danger">*</span></label>
+            <input type="date" class="form-control btnInput" name="fechacontratacion" id="fechacontratacion"
+              oninput="validarFechas()">
+            <div id="mensajeErrorFechas" class="mensajeError"></div>
+          </div>
+
+
+          <div class="mb-4 form-group">
+            <label for="fechaTerminacion" class="form-label fontTtitle">Fecha de Terminacion<span
+                class="text-danger">*</span></label>
+            <input type="date" class="form-control btnInput" name="fechaTerminacion" id="fechaTerminacion"
+            
+              oninput="validarFechas()">
+                <small id="fechaHelp"></small>
+            <div id="mensajeErrorFechas2" class="mensajeError"></div>
+          </div>
+   
+
+          <div class="mb-4 form-group">
+            <label for="correo" class="form-label fontTtitle">Correo Electrónico<span
+                class="text-danger">*</span></label>
+            <input type="email" class="form-control btnInput" name="correo" id="correo" oninput="validarCorreo()">
+             <small id="correoHelp"></small>
+            <div id="mensajeErrorCorreo" class="mensajeError"></div>
+          </div>
+
+
+
+
+        </div>
+
+
+      </div>
+
+      {{!-- <button type="button" class="btn btnGuardar">Guardar</button> --}}
+      <button type="button" class="btn btnCancelar" >Cancelar</button>
+      <button type="button" class="btn btnGuardar" id="btnRegistrar">Guardar</button>
+      <button type="button" class="btn btnCancelar" data-bs-toggle="modal" data-bs-target="#mimodal">
+        Cancelar
+      </button>
+     </form> <!--modal para asegurarse de guardar-->
+  </div>   
+  <!--modal para cancelar-->
+  
+  
+
+
+  <!--LISTADOS-->
+
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="../js/validacionesempleados.js"></script>
+  <script src="../backend/funcionesEmple.js"></script>
+ 
+{{> footer }}
+
+</body>
+
+</html>

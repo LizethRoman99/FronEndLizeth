@@ -1,0 +1,478 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/estilosGenericos.css">
+    <style>
+        .modulos-link {
+            color: black;
+            font-weight: bold;
+        }
+
+        .submodule-link {
+            color: #1f2553;
+        }
+
+        .submodule-link:hover {
+            color: #1f2553;
+        }
+
+        .permission-label {
+            color: #1f2553;
+            margin-bottom: 10px;
+        }
+
+        .row {
+            margin-left: 10px;
+            margin-top: 0;
+            padding-top: 0%;
+
+        }
+
+        .container-fluid {
+            margin-top: 0;
+            padding-top: 0%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .btnInput {
+            border: 1px solid #ced4da;
+        }
+
+        /* Estilo para entrada válida */
+        .btnInput.valido {
+            border: 3px solid #00b62b;
+        }
+
+        /* Estilo para entrada inválida */
+        .btnInput.invalido {
+            border: 3px solid #dc3545;
+        }
+
+        .form-check-input::before {
+            background-color: #1f2553;
+        }
+    </style>
+</head>
+
+<body>
+    {{> header title="Roles"}}
+
+    <div class="containerBueno">
+        <h1 class="textoh1 mt-2" id="nombreAccion">Registrar rol</h1>
+        <div class="row">
+            <form class="mb-2">
+                <div class="col-md-12">
+                    <div class="mb-4 form-group">
+                        <label for="" class="form-label fontTtitle">Nombre rol</label>
+                        <input type="text" class="form-control btnInput" name="inputNombreRol" id="inputNombreRol"
+                            oninput="validarNombre()">
+                        <div id="mensajeError" class="mensajeError" style="color: #dc3545;
+                        font-size: 0.875rem;
+                        margin-top: 0.25rem;"></div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="mb-4 form-group">
+                        <label for="permisos" class="form-label fontTtitle">Permisos</label>
+                        {{!-- <ul class="list-unstyled" id="privilegiosList">
+                        </ul> --}}
+                    </div>
+                </div>
+                <div class="col-md-6 mb-5">
+                    <button type="button" class="btn btnLimpiar">Limpiar</button>
+                    <button type="button" class="btn btnCancelar">Cancelar</button>
+                    <button type="button" class="btn btnGuardar" id="guardarCambiosBtn">Guardar cambios</button>
+                </div>
+                <br>
+        </div>
+        </form>
+    </div>
+
+
+    <div class="search">
+        <form class="d-flex" role="search">
+            <input class="form-control me-2 campo-search" type="search" placeholder="Buscar" aria-label="Search">
+            <button class="btn btn-outline-secondary boton-search" type="submit"><img src="img/search.ico" alt="search"
+                    class="icono-search"></button>
+        </form>
+    </div>
+
+
+
+    <div class="containerBueno">
+        <h2 class="textoh1 mt-3">Listado Roles</h2>
+        <table id="tablaRoles" class="table table-orientacion">
+            <thead>
+                <tr>
+                    <td scope="col" class="camposListar">Id Rol</td>
+                    <td scope="col" class="camposListar">Nombre Rol</td>
+                    <td scope="col" class="camposListar">Estado</td>
+                    <td scope="col" class="text-center camposListar" style="width: 200px;">Acciones</td>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <nav aria-label="Page navigation example" class="pag">
+            <ul class="pagination justify-content-end">
+                <li class="page-item disabled">
+                    <a class="page-link">&laquo;</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#">&raquo;</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+
+    <div class="modal fade" id="confirmarEliminarModal" tabindex="-1" aria-labelledby="confirmarEliminarModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmarEliminarModalLabel">Confirmar Eliminación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ¿Está seguro de que desea eliminar este rol?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" onclick="confirmarEliminarRol()">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="eliminadoExitosamenteModal" tabindex="-1"
+        aria-labelledby="eliminadoExitosamenteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="eliminadoExitosamenteModalLabel">Rol eliminado exitosamente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ¡El rol se ha eliminado con éxito!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="exitoModal" tabindex="-1" aria-labelledby="exitoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exitoModalLabel">Rol creado exitosamente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ¡El rol se ha creado con éxito!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="exitoModalEdit" tabindex="-1" aria-labelledby="exitoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exitoModalLabel">Rol creado exitosamente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ¡El rol se ha editado con éxito!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="confirmarCambioEstadoModal" tabindex="-1"
+        aria-labelledby="confirmarCambioEstadoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmarCambioEstadoModalLabel">Confirmar Cambio de Estado</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ¿Está seguro de que desea cambiar el estado?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="confirmarCambioEstado()">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+<script>
+
+    function eliminarRol(id) {
+        rolIdToDelete = id;
+        $('#confirmarEliminarModal').modal('show');
+    }
+
+    function cambiarEstado(id) {
+        $('#confirmarCambioEstadoModal').modal('show');
+
+        rolIdToChangeState = id;
+    }
+
+
+    let rolIdToChangeState = null;
+    function confirmarCambioEstado() {
+        if (rolIdToChangeState !== null) {
+            const indexToChangeState = rolesArray.findIndex(rol => rol.id === rolIdToChangeState);
+
+            if (indexToChangeState !== -1 && rolesArray[indexToChangeState]) {
+                rolesArray[indexToChangeState].estado = rolesArray[indexToChangeState].estado === 'Activo' ? 'Inactivo' : 'Activo';
+
+                llenarTablaRoles();
+
+                rolIdToChangeState = null;
+
+                $('#confirmarCambioEstadoModal').modal('hide');
+            } else {
+                console.error('No se encontró el rol con el ID especificado.');
+            }
+        }
+    }
+
+    function confirmarEliminarRol() {
+        const index = rolesArray.findIndex(rol => rol.id === rolIdToDelete);
+
+        rolesArray.splice(index, 1);
+
+        llenarTablaRoles();
+
+        $('#confirmarEliminarModal').modal('hide');
+
+        $('#eliminadoExitosamenteModal').modal('show');
+    }
+
+    let rolIdToEdit = null;
+
+
+    function editarRol(id) {
+        const roleToEdit = rolesArray.find(rol => rol.id === id);
+
+        rolIdToEdit = id;
+
+        document.getElementById('nombreAccion').textContent = 'Editar rol';
+
+        document.getElementById('inputNombreRol').value = roleToEdit.nombre;
+
+        $('#registroRolModal').modal('show');
+    }
+
+
+    let rolesArray = [
+        { id: '0001', nombre: 'Administrador', estado: 'Activo' },
+    ];
+
+    var tablaRoles = document.getElementById('tablaRoles');
+
+    function crearFilaRol(rol) {
+        var fila = tablaRoles.insertRow();
+
+        var idCell = fila.insertCell(0);
+        var nombreCell = fila.insertCell(1);
+        var estadoCell = fila.insertCell(2);
+        var accionesCell = fila.insertCell(3);
+
+        idCell.textContent = rol.id;
+        nombreCell.textContent = rol.nombre;
+        estadoCell.textContent = rol.estado;
+
+        accionesCell.style.display = 'flex';
+        accionesCell.style.justifyContent = 'center';
+
+        accionesCell.innerHTML = `
+            <button type="button" class="btn" onclick="editarRol('${rol.id}')">
+                <img src="img/pencil.ico" alt="Editar" class="iconos-listar">
+            </button>
+            <button type="button" class="btn" onclick="verRol('${rol.id}')">
+                <img src="img/show.ico" alt="Ver" class="iconos-listar">
+            </button>
+            <button type="button" class="btn" onclick="eliminarRol('${rol.id}')">
+                <img src="img/delete.ico" alt="Borrar" class="iconos-listar">
+            </button>
+            <div class="form-check form-switch checkeo" style="margin-top: 5px;">
+                <input class="form-check-input" type="checkbox" role="switch" id="switch-${rol.id}"
+                    ${rol.estado ? 'checked' : ''} onchange="cambiarEstado(${rol.id})">
+            </div>`;
+    }
+
+    function llenarTablaRoles() {
+        while (tablaRoles.rows.length > 1) {
+            tablaRoles.deleteRow(1);
+        }
+
+        for (var i = 0; i < rolesArray.length; i++) {
+            var rol = rolesArray[i];
+            crearFilaRol(rol);
+        }
+    }
+
+    llenarTablaRoles();
+
+    const data = [
+        {
+            modulos: 'Configuración',
+            permisos: [
+                { name: 'Roles', privilegios: ['Listar', 'Crear', 'Editar', 'Eliminar', 'Buscar', 'Cambiar estado'] },
+                { name: 'Gestion de usuarios', privilegios: ['Listar', 'Crear', 'Editar', 'Eliminar', 'Buscar'] }
+            ]
+        },
+        {
+            modulos: 'Compras',
+            permisos: [
+                { name: 'Categoria De Insumos', privilegios: ['Listar', 'Crear', 'Editar', 'Eliminar', 'Buscar', 'Cambiar estado'] },
+                { name: 'Gestión De Insumos', privilegios: ['Listar', 'Crear', 'Editar', 'Eliminar', 'Buscar', 'Cambiar estado'] },
+                { name: 'Gestión De Proveedores', privilegios: ['Listar', 'Crear', 'Editar', 'Eliminar', 'Buscar', 'Cambiar estado'] },
+                { name: 'Gestión De Compras', privilegios: ['Listar', 'Crear', 'Editar', 'Eliminar', 'Buscar'] }
+            ]
+        },
+        {
+            modulos: 'Producción',
+            permisos: [
+                { name: 'Gestión De Empleados', privilegios: ['Listar', 'Crear', 'Editar', 'Eliminar', 'Buscar', 'Cambiar estado'] },
+                { name: 'Gestión De Ficha Tecnica', privilegios: ['Listar', 'Crear', 'Editar', 'Eliminar', 'Buscar'] },
+                { name: 'Gestión De Orden De Producción', privilegios: ['Listar', 'Crear', 'Editar', 'Eliminar', 'Buscar'] }
+            ]
+        },
+        {
+            modulos: 'Productos',
+            permisos: [
+                { name: 'Estampados', privilegios: ['Listar', 'Crear', 'Editar', 'Eliminar', 'Buscar', 'Cambiar estado'] },
+                { name: 'Catalogo De Productos', privilegios: ['Listar', 'Crear', 'Editar', 'Eliminar', 'Buscar'] },
+                { name: 'Producto Base', privilegios: ['Listar', 'Crear', 'Editar', 'Eliminar', 'Buscar'] },
+                { name: 'Producto Personalizado', privilegios: ['Listar', 'Crear', 'Editar', 'Eliminar', 'Buscar'] }
+            ]
+        },
+        {
+            modulos: 'Pedidos',
+            permisos: [
+                { name: 'Gestión De Cotización', privilegios: ['Listar', 'Crear', 'Editar', 'Eliminar', 'Buscar'] },
+                { name: 'Gestión Carrito De Productos', privilegios: ['Listar', 'Crear', 'Editar', 'Eliminar', 'Buscar'] },
+                { name: 'Gestión De Pedidos', privilegios: ['Listar', 'Crear', 'Editar', 'Eliminar', 'Buscar'] }
+            ]
+        },
+        {
+            modulos: 'Ventas',
+            permisos: [
+                { name: 'Gestión De Clientes', privilegios: ['Listar', 'Crear', 'Editar', 'Eliminar', 'Buscar', 'Cambiar estado'] },
+                { name: 'Gestión De Ventas', privilegios: ['Listar', 'Crear', 'Editar', 'Eliminar', 'Buscar'] }
+            ]
+        },
+    ];
+
+    /* function construirListaPermisos() {
+        const privilegiosList = document.getElementById('privilegiosList');
+
+        data.forEach(modulo => {
+            const moduloItem = document.createElement('li');
+            moduloItem.innerHTML = `<strong>${modulo.modulos}</strong><ul></ul>`;
+
+            modulo.permisos.forEach(permiso => {
+                const permisoItem = document.createElement('li');
+                permisoItem.textContent = `${permiso.name} - ${permiso.privilegios.join(', ')}`;
+                moduloItem.querySelector('ul').appendChild(permisoItem);
+            });
+
+            privilegiosList.appendChild(moduloItem);
+        });
+    }
+
+    construirListaPermisos(); */
+
+
+    function validarNombre() {
+        var inputNombre = document.getElementById('inputNombreRol');
+        var mensajeError = document.getElementById('mensajeError');
+
+        var nombre = inputNombre.value.trim();
+
+        if (nombre === '') {
+            inputNombre.classList.remove('valido');
+            inputNombre.classList.add('invalido');
+            mensajeError.textContent = 'Este campo no puede estar vacío.';
+        } else if (!/^[A-Za-z\s]+$/.test(nombre)) {
+            inputNombre.classList.remove('valido');
+            inputNombre.classList.add('invalido');
+            mensajeError.textContent = 'Ingrese un nombre válido (solo letras y espacios).';
+        } else if (!/^[A-Z][a-zA-Z\s]{2,49}$/.test(nombre)) {
+            inputNombre.classList.remove('valido');
+            inputNombre.classList.add('invalido');
+            mensajeError.textContent = 'El nombre debe comenzar con mayúscula y tener entre 3 y 50 caracteres.';
+        } else {
+            inputNombre.classList.remove('invalido');
+            inputNombre.classList.add('valido');
+            mensajeError.textContent = '';
+        }
+    }
+
+    document.getElementById('inputNombreRol').addEventListener('input', validarNombre);
+
+    document.getElementById('guardarCambiosBtn').addEventListener('click', function () {
+        validarNombre();
+
+        if (document.getElementById('inputNombreRol').classList.contains('valido')) {
+            if (rolIdToEdit !== null) {
+                const indexToEdit = rolesArray.findIndex(rol => rol.id === rolIdToEdit);
+
+                rolesArray[indexToEdit].nombre = document.getElementById('inputNombreRol').value;
+
+                rolIdToEdit = null;
+
+                $('#exitoModalEdit').modal('show');
+                document.getElementById('nombreAccion').textContent = 'Registrar rol';
+
+            } else {
+                const nuevoRol = {
+                    id: '0002',
+                    nombre: document.getElementById('inputNombreRol').value,
+                    estado: 'Activo'
+                };
+
+                rolesArray.push(nuevoRol);
+
+                $('#exitoModal').modal('show');
+            }
+
+            document.getElementById('inputNombreRol').value = '';
+            document.getElementById('inputNombreRol').classList.remove('valido', 'invalido');
+
+            llenarTablaRoles();
+        }
+    });
+
+
+</script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</html>

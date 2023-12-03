@@ -1,0 +1,538 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/estilosGenericos.css">
+    <style>
+        .row {
+            margin-left: 10px;
+            margin-top: 0;
+            padding-top: 0%;
+
+        }
+
+        .container-fluid {
+            margin-top: 0;
+            padding-top: 0%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .btnInput {
+            border: 1px solid #ced4da;
+        }
+
+        /* Estilo para entrada válida */
+        .btnInput.valido {
+            border: 3px solid #00b62b;
+        }
+
+        /* Estilo para entrada inválida */
+        .btnInput.invalido {
+            border: 3px solid #dc3545;
+        }
+
+
+        .form-check-input {
+            position: relative;
+            width: 50px;
+            height: 18px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            outline: none;
+            cursor: pointer;
+            background-color: #1f2553;
+            border: 1px solid #1f2553;
+            border-radius: 50px;
+            transition: background-color 0.1s, border-color 0.1s;
+        }
+
+        .form-check-input:checked {
+            background-color: #008000;
+            border-color: green;
+        }
+
+        .form-check-input::before {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background-color: white;
+            border-radius: 50%;
+            left: 2.5px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: background-color 0.1s;
+        }
+
+        .form-check-input:checked::before {
+            background-color: #008000;
+        }
+
+        .form-check-input:checked:focus::before {
+            content: '';
+        }
+
+        .form-check-input:focus {
+            box-shadow: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    {{> header title="Estampados"}}
+
+
+    <div class="containerBueno">
+        <h2 class="textoh1 mt-3" id="nombreAccion">Registrar estampado</h2>
+        <form>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="mb-4 form-group">
+                        <label for="nombreEstampado" class="form-label fontTtitle">Nombre estampado</label>
+                        <input type="text" class="form-control btnInput" name="inputNombreEstampado"
+                            id="inputNombreEstampado" oninput="validarNombreEstampado()">
+                        <div id="mensajeErrorNombre" class="mensajeErrorNombre" style="color: #dc3545;"></div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-4 form-group">
+                        <label for="descripcion" class="form-label fontTtitle">Descripción</label>
+                        <textarea class="form-control btnInput" name="descripcion" id="descripcion" rows="3"
+                            style="max-height: 100px; overflow-y: auto;"
+                            oninput="validarDescripcionEstampado()"></textarea>
+                        <div id="descripcionError" class="text-danger"></div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-4 form-group">
+                        <label for="imagenes" class="form-label fontTtitle">Cargar imágenes</label>
+                        <input type="file" class="form-control btnInput" name="imagenes" id="imagenes" accept="image/*"
+                            multiple onchange="validarImagenEstampado()">
+                        <div id="imagenesError" class="text-danger"></div>
+                    </div>
+                </div>
+                <div class="col-md-12 mb-5">
+                    <button type="button" class="btn btnLimpiar" onclick="">Limpiar</button>
+                    <button type="button" class="btn btnCancelar" onclick="">Cancelar</button>
+                    <button type="button" class="btn btnGuardar" onclick="guardarCambiosEstampado()">Guardar
+                        cambios</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="search">
+        <form class="d-flex" role="search">
+            <input class="form-control me-2 campo-search" type="search" placeholder="Buscar" aria-label="Search">
+            <button class="btn btn-outline-secondary boton-search" type="submit"><img src="img/search.ico" alt="search"
+                    class="icono-search"></button>
+        </form>
+    </div>
+
+    <div class="containerBueno">
+        <h2 class="textoh1 mt-3">Listado estampados</h2>
+        <table id="tablaEstampados" class="table table-orientacion">
+            <thead>
+                <tr>
+                    <td scope="col" class="camposListar">Id estampado</td>
+                    <td scope="col" class="camposListar">Nombre estampado</td>
+                    <td scope="col" class="camposListar">Descripcion</td>
+                    <td scope="col" class="camposListar">Estado</td>
+                    <td scope="col" class="camposListar">Diseño</td>
+                    <td scope="col" class="text-center camposListar" style="width: 200px;">Acciones</td>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+        <nav aria-label="Page navigation example" class="pag">
+            <ul class="pagination justify-content-end">
+                <li class="page-item disabled">
+                    <a class="page-link">&laquo;</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#">&raquo;</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+
+    <div class="modal fade" id="exitoModal" tabindex="-1" aria-labelledby="exitoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exitoModalLabel">Estampado creado exitosamente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ¡El estampado se ha creado con éxito!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="confirmacionModal" tabindex="-1" aria-labelledby="confirmacionModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmacionModalLabel">Confirmar Eliminación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ¿Estás seguro de que deseas eliminar este estampado?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" id="confirmarEliminarBtn">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="exitoModalEstampado" tabindex="-1" aria-labelledby="exitoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exitoModalLabel">Estampado editado exitosamente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ¡El estampado se ha creado con éxito!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="exitoModalEstampadoEdit" tabindex="-1" aria-labelledby="exitoModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exitoModalLabel">Estampado editado exitosamente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ¡El estampado se ha editado con éxito!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="confirmarCambioEstadoModal" tabindex="-1"
+        aria-labelledby="confirmarCambioEstadoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmarCambioEstadoModalLabel">Confirmar Cambio de Estado</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ¿Está seguro de que desea cambiar el estado?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="confirmarCambioEstado()">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="confirmarEliminarModal" tabindex="-1" aria-labelledby="confirmarEliminarModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmarEliminarModalLabel">Confirmar Eliminación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ¿Está seguro de que desea eliminar este estampado?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger"
+                        onclick="confirmarEliminarEstampado()">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="eliminadoExitosamenteModal" tabindex="-1"
+        aria-labelledby="eliminadoExitosamenteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="eliminadoExitosamenteModalLabel">Estampado eliminado exitosamente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ¡El estampado se ha eliminado con éxito!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+<script>
+   function cambiarEstado(estampadoId) {
+    var switchElement = document.getElementById(`switch-${estampadoId}`);
+
+    if (!switchElement.checked) {
+        $('#confirmarCambioEstadoModal').modal('show');
+    } else {
+        $('#confirmarCambioEstadoModal').modal('show');
+
+    }
+}
+
+    function eliminarEstampado(id) {
+        estampadoIdToDelete = id;
+        $('#confirmarEliminarModal').modal('show');
+    }
+
+    function confirmarEliminarEstampado() {
+        const index = estampadosArray.findIndex(estampado => estampado.id === estampadoIdToDelete);
+
+        estampadosArray.splice(index, 1);
+
+        llenarTabla();
+
+        $('#confirmarEliminarModal').modal('hide');
+
+        $('#eliminadoExitosamenteModal').modal('show');
+    }
+    let estampadosArray = [
+        { id: '1', nombre: 'Estampado Rojo', descripcion: 'Estampado de la cara de...', estado: 'Activo', imagen: 'css/more.ico' },
+        { id: '2', nombre: 'Estampado Azul', descripcion: 'Estampado de la serie...', estado: 'Inactivo', imagen: 'css/more.ico' },
+    ];
+
+    let estampadoIdToEdit = null;
+
+    function editarEstampado(id) {
+        const estampadoToEdit = estampadosArray.find(estampado => estampado.id == id);
+
+        estampadoIdToEdit = id;
+
+        document.getElementById('nombreAccion').textContent = 'Editar estampado';
+
+        document.getElementById('inputNombreEstampado').value = estampadoToEdit.nombre;
+        document.getElementById('descripcion').value = estampadoToEdit.descripcion;
+        document.getElementById('imagenes').value = estampadoToEdit.imagen;
+
+        $('#registroEstampadoModal').modal('show');
+    }
+
+
+    var tabla = document.getElementById('tablaEstampados');
+
+    function crearFila(estampado) {
+        var fila = tabla.insertRow();
+
+        var idCell = fila.insertCell(0);
+        var nombreCell = fila.insertCell(1);
+        var descripcionCell = fila.insertCell(2);
+        var estadoCell = fila.insertCell(3);
+        var imagenCell = fila.insertCell(4);
+
+        idCell.textContent = estampado.id;
+        nombreCell.textContent = estampado.nombre;
+        descripcionCell.textContent = estampado.descripcion;
+        estadoCell.textContent = estampado.estado;
+        imagenCell.innerHTML = `<img src="${estampado.imagen}" alt="${estampado.nombre}" style="width: 28px; height: 28px;">`;
+
+        var accionesCell = fila.insertCell(5);
+        accionesCell.style.display = 'flex';
+        accionesCell.style.justifyContent = 'center';
+
+        accionesCell.innerHTML = `
+            <button type="button" class="btn" onclick="editarEstampado( ${estampado.id} )">
+                <img src="img/pencil.ico" alt="Editar" class="iconos-listar">
+            </button>
+            <button type="button" class="btn" onclick="eliminarEstampado('${estampado.id}')">
+                <img src="img/delete.ico" alt="Borrar" class="iconos-listar">
+            </button>
+            <div class="form-check form-switch checkeo" style="margin-top: 5px;">
+                <input class="form-check-input" type="checkbox" role="switch" id="switch-${estampado.id}"
+                    ${estampado.activo ? 'checked' : ''} onchange="cambiarEstado(${estampado.id})">
+            </div>`;
+    }
+
+    function llenarTabla() {
+        while (tabla.rows.length > 1) {
+            tabla.deleteRow(1);
+        }
+
+        for (var i = 0; i < estampadosArray.length; i++) {
+            var estampado = estampadosArray[i];
+            crearFila(estampado);
+        }
+    }
+
+    llenarTabla()
+
+    function mostrarConfirmacionModal(estampadoId) {
+        $('#confirmacionModal').modal('show');
+
+        document.getElementById('confirmarEliminarBtn').setAttribute('data-estampado-id', estampadoId);
+    }
+
+
+    document.getElementById('confirmarEliminarBtn').addEventListener('click', function () {
+        var estampadoId = this.getAttribute('data-estampado-id');
+
+        estampadosArray = estampadosArray.filter(estampado => estampado.id !== estampadoId);
+
+        $('#confirmacionModal').modal('hide');
+
+        llenarTabla();
+    });
+
+
+    function validarNombreEstampado() {
+        var inputNombre = document.getElementById('inputNombreEstampado');
+        var mensajeError = document.getElementById('mensajeErrorNombre');
+
+        var nombre = inputNombre.value.trim();
+
+        if (nombre === '') {
+            inputNombre.classList.remove('valido');
+            inputNombre.classList.add('invalido');
+            mensajeError.textContent = 'Este campo no puede estar vacío.';
+        } else if (!/^[A-Za-z\s]+$/.test(nombre)) {
+            inputNombre.classList.remove('valido');
+            inputNombre.classList.add('invalido');
+            mensajeError.textContent = 'Ingrese un nombre válido (solo letras y espacios).';
+        } else if (!/^[A-Z][a-zA-Z\s]{2,49}$/.test(nombre)) {
+            inputNombre.classList.remove('valido');
+            inputNombre.classList.add('invalido');
+            mensajeError.textContent = 'El nombre debe comenzar con mayúscula y tener entre 3 y 50 caracteres.';
+        } else {
+            inputNombre.classList.remove('invalido');
+            inputNombre.classList.add('valido');
+            mensajeError.textContent = '';
+        }
+    }
+
+    function validarDescripcionEstampado() {
+        var descripcionInput = document.getElementById('descripcion');
+        var descripcionError = document.getElementById('descripcionError');
+
+        var descripcion = descripcionInput.value.trim();
+
+        if (descripcion === '') {
+            descripcionInput.classList.remove('valido');
+            descripcionInput.classList.add('invalido');
+            descripcionError.textContent = 'Este campo no puede estar vacío.';
+        } else {
+            descripcionInput.classList.remove('invalido');
+            descripcionInput.classList.add('valido');
+            descripcionError.textContent = '';
+        }
+    }
+
+    function validarImagenEstampado() {
+        var imagenesInput = document.getElementById('imagenes');
+        var imagenesError = document.getElementById('imagenesError');
+
+        if (imagenesInput.files.length === 0) {
+            imagenesInput.classList.remove('valido');
+            imagenesInput.classList.add('invalido');
+            imagenesError.textContent = 'Seleccione al menos una imagen.';
+        } else {
+            imagenesInput.classList.remove('invalido');
+            imagenesInput.classList.add('valido');
+            imagenesError.textContent = '';
+        }
+    }
+
+    document.getElementById('inputNombreEstampado').addEventListener('input', validarNombreEstampado);
+    document.getElementById('descripcion').addEventListener('input', validarDescripcionEstampado);
+    document.getElementById('imagenes').addEventListener('change', validarImagenEstampado);
+
+
+    function guardarCambiosEstampado() {
+        var nombreEstampado = document.getElementById('inputNombreEstampado').value;
+        var descripcion = document.getElementById('descripcion').value;
+        var imagenes = document.getElementById('imagenes').files;
+
+        validarNombreEstampado();
+        if (!document.getElementById('inputNombreEstampado').classList.contains('valido')) {
+            return;
+        }
+
+        validarDescripcionEstampado();
+        if (!document.getElementById('descripcion').classList.contains('valido')) {
+            return;
+        }
+
+        validarImagenEstampado();
+        if (!document.getElementById('imagenes').classList.contains('valido')) {
+            return;
+        }
+
+        if (estampadoIdToEdit !== null) {
+            const indexToEdit = estampadosArray.findIndex(estampado => estampado.id == estampadoIdToEdit);
+
+            estampadosArray[indexToEdit].nombre = nombreEstampado;
+            estampadosArray[indexToEdit].descripcion = descripcion;
+            // estampadosArray[indexToEdit].imagen = ...
+
+            estampadoIdToEdit = null;
+
+            $('#exitoModalEstampadoEdit').modal('show');
+            document.getElementById('nombreAccion').textContent = 'Registrar estampado';
+        } else {
+            const nuevoEstampado = {
+                id: '0003',
+                nombre: nombreEstampado,
+                descripcion: descripcion,
+                estado: 'Activo',
+                diseño: 'Diseño 3',
+                activo: true,
+            };
+
+            estampadosArray.push(nuevoEstampado);
+
+            $('#exitoModalEstampado').modal('show');
+        }
+
+        document.getElementById('inputNombreEstampado').value = '';
+        document.getElementById('descripcion').value = '';
+        document.getElementById('imagenes').value = '';
+
+        llenarTabla();
+    }
+
+
+</script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</html>
