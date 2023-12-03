@@ -1,4 +1,4 @@
-const url = 'https://proveedoresapi2.onrender.com';
+const url = 'https://proveedoresapi2.onrender.com/proveedores';
 let currentPage = 1; // Página actual
 const itemsPerPage = 5;
 
