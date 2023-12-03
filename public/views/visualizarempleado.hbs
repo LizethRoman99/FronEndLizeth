@@ -22,7 +22,7 @@
     <title>Visualizar</title>
 
 
-<body class="bodybg">
+<body onload="visualizarEmpleado()" class="bodybg">
      {{> header title="Empleados"}}
 
 
@@ -37,33 +37,33 @@
                 <div class="col-md-6">
 
                     <div class="mb-3 form-group">
-                        <label for="nombrecom" class="form-label fontTtitle">Nombre Completo <span
+                        <label for="nombreCompleto" class="form-label fontTtitle">Nombre Completo <span
                                 class="text-danger">*</span></label>
-                        <input type="text" class="form-control btnInput" name="nombrecom" id="nombrecom" value="Anibal Rodriguez Ruiz" disabled
+                        <input type="text" class="form-control btnInput" name="nombreCompleto" id="nombreCompleto" disabled
                             oninput="validarNombre()">
                         <div id="mensajeError" class="mensajeError"></div>
                     </div>
 
                     <div class="mb-4 form-group">
-                        <label for="Cedula" class="form-label fontTtitle">Documento<span
+                        <label for="documento" class="form-label fontTtitle">Documento<span
                                 class="text-danger">*</span></label>
-                        <input type="text" class="form-control btnInput" name="Cedula" id="Cedula" value="1042066987" disabled
+                        <input type="text" class="form-control btnInput" name="documento" id="documento" disabled
                             oninput="validarCedula()">
                         <div id="mensajeErrorCedula" class="mensajeError"></div>
                     </div>
 
                     <div class="mb-4 form-group">
-                        <label for="Celular" class="form-label fontTtitle">Celular<span
+                        <label for="celular" class="form-label fontTtitle">Celular<span
                                 class="text-danger">*</span></label>
-                        <input type="text" class="form-control btnInput" name="Celular" id="Celular" value="3178324567" disabled
+                        <input type="text" class="form-control btnInput" name="celular" id="celular" disabled
                             oninput="validarCelular()">
                         <div id="mensajeErrorCelular" class="mensajeError"></div>
                     </div>
 
                     <div class="mb-4 form-group">
-                        <label for="Contrasena" class="form-label fontTtitle">Contraseña<span
+                        <label for="contraseña" class="form-label fontTtitle">Contraseña<span
                                 class="text-danger">*</span></label>
-                        <input type="password" class="form-control btnInput" name="Contrasena" id="Contrasena" value="98760987" disabled
+                        <input type="password" class="form-control btnInput" name="contraseña" id="contraseña" disabled
                             oninput="validarContraseña()">
                         <div id="mensajeErrorContraseña" class="mensajeError"></div>
                     </div>
@@ -72,7 +72,7 @@
                     <div class="mb-4 form-group">
                         <label for="confirmacionContraseña" class="form-label fontTtitle">Confirmación de
                             contraseña<span class="text-danger">*</span></label>
-                        <input type="password" class="form-control btnInput" name="confirmacionContraseña" id="confirmacionContraseña" value="98760987" disabled  oninput="validarContraseña()">
+                        <input type="password" class="form-control btnInput" name="confirmacionContraseña" id="confirmacionContraseña" disabled >
                         <div id="mensajeErrorContraseña" class="mensajeError"></div>
                     </div>
 
@@ -80,20 +80,11 @@
 
                 </div>
                 <div class="col-md-6 form2">
-                    <select class="form-select" aria-label="Default select example" disabled>
-                        <option selected >Nueva Eps</option>
-                        <option value="1"></option>
-                        <option value="2">Sura</option>
-                        <option value="3">Coomeva</option>
-                        <option value="4">Salud Total</option>
-                        <option value="5">Sanitas</option>
-                        <option value="6">Sanitas</option>
-                    </select>
-
+                   
                     <div class="mb-4 form-group">
-                        <label for="fechanacimiento" class="form-label fontTtitle">Fecha de nacimiento<span
+                        <label for="fechaNacimiento" class="form-label fontTtitle">Fecha de nacimiento<span
                                 class="text-danger">*</span></label>
-                        <input type="date" class="form-control btnInput" name="fechanacimiento" id="fechanacimiento" value="1998-03-02" disabled
+                        <input type="date" class="form-control btnInput" name="fechaNacimiento" id="fechaNacimiento" disabled
                             oninput="validarfechanacimiento()">
                         <div id="mensajeErrorFechaNacimiento" class="mensajeError"></div>
                     </div>
@@ -101,24 +92,24 @@
                     <div class="mb-4 form-group">
                         <label for="fechacontratacion" class="form-label fontTtitle">Fecha de contratación<span
                                 class="text-danger">*</span></label>
-                        <input type="date" class="form-control btnInput" name="fechacontratacion" id="fechacontratacion" value="2023-03-22" disabled
+                        <input type="date" class="form-control btnInput" name="fechacontratacion" id="fechacontratacion" disabled
                             oninput="validarFechas()">
                         <div id="mensajeErrorFechas" class="mensajeError"></div>
                     </div>
 
 
                     <div class="mb-4 form-group">
-                        <label for="fechaterminacion" class="form-label fontTtitle">Fecha de Terminacion<span
+                        <label for="fechaTerminacion" class="form-label fontTtitle">Fecha de Terminacion<span
                                 class="text-danger">*</span></label>
-                        <input type="date" class="form-control btnInput" name="fechaterminacion" id="fechaterminacion" value="2025-03-02" disabled
+                        <input type="date" class="form-control btnInput" name="fechaTerminacion" id="fechaTerminacion" disabled
                             oninput="validarFechas()">
                         <div id="mensajeErrorFechas2" class="mensajeError"></div>
                     </div>
 
                     <div class="mb-4 form-group">
-                        <label for="Correo" class="form-label fontTtitle">Correo Electrónico<span
+                        <label for="correo" class="form-label fontTtitle">Correo Electrónico<span
                                 class="text-danger">*</span></label>
-                        <input type="email" class="form-control btnInput" name="Correo" id="Correo" value="Anibital9867@gmail.com" disabled
+                        <input type="email" class="form-control btnInput" name="correo" id="correo" disabled
                             oninput="validarCorreo()">
                         <div id="mensajeErrorCorreo" class="mensajeError"></div>
                     </div>
@@ -140,6 +131,7 @@
         crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="/FRONTENDDEVELOPMENT/assets/validaciones/validarEmpleados.js"></script>
+    <script src="../backend/funcionesEmple.js"></script>
 
 {{> footer }}
 

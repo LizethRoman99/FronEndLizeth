@@ -24,7 +24,7 @@
 
 
 
-<body class="bodybg">
+<body onload="editarEmpleado()" class="bodybg">
   {{> header title="Empleados"}}
 
 
@@ -130,9 +130,8 @@
       {{!-- <button type="button" class="btn btnGuardar">Guardar</button> --}}
       <button type="button" class="btn btnCancelar" >Cancelar</button>
       <button type="button" class="btn btnGuardar" id="btnRegistrar">Guardar</button>
-      <button type="button" class="btn btnCancelar" data-bs-toggle="modal" data-bs-target="#mimodal">
-        Cancelar
-      </button>
+         <button type="button" class="btn btnActualizar" style="display: none;" id="btnActualizar">Actualizar</button>
+     
      </form> <!--modal para asegurarse de guardar-->
   </div>   
   <!--modal para cancelar-->

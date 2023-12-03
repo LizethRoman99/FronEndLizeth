@@ -1,6 +1,5 @@
 const url = 'https://proveedoresapi2.onrender.com/proveedores';
-let currentPage = 1; // Página actual
-const itemsPerPage = 5;
+
 
 const listarProveedores = async () => {
     // Objeto del html donde se desplegará la información
@@ -59,38 +58,10 @@ const listarProveedores = async () => {
 }
 
 //paginado
-function previousPage() {
-    if (currentPage > 1) {
-        currentPage--;
-        listarProveedores(currentPage);
-    }
-}
 
-// Función para ir a la página siguiente
-function nextPage() {
-    // Supongamos que tienes un total de 3 páginas (puedes obtener este valor dinámicamente)
-    const totalPages = 3;
 
-    if (currentPage < totalPages) {
-        currentPage++;
-        listarProveedores(currentPage);
-    }
-}
 
-// Función para actualizar el estado del paginado
-function updatePagination() {
-    const paginationElement = document.getElementById('pagination');
-    const pageLinks = paginationElement.getElementsByTagName('a');
 
-    for (let i = 0; i < pageLinks.length; i++) {
-        if (i === 1) {
-            // El índice 1 es la primera página
-            pageLinks[i].innerText = currentPage;
-        }
-    }
-
-    // Puedes añadir lógica adicional según tus necesidades
-}
 
 // Función para agregar un nuevo proveedor
 const agregarProveedor = async (datosProveedor) => {
@@ -305,7 +276,7 @@ async function eliminarProveedor(nit) {
 }
 
 function confirmarEliminar(nit) {
-    const confirmacion = window.confirm('¿Estás seguro de que deseas eliminar este proveedor?');
+    const confirmacion = confirm('¿Estás seguro de que deseas eliminar este proveedor?');
 
     if (confirmacion) {
         // Llamar a la función eliminarProveedor con el nit del proveedor
@@ -316,8 +287,7 @@ function confirmarEliminar(nit) {
 }
 
 // Ejemplo de uso:
-const proveedorNit = '	233456786-9'; // Aquí debes proporcionar el valor correcto de nit
-confirmarEliminar(proveedorNit);
+
 
 
 if (document.querySelector('#btnRegistrar')){ //Si objeto existe
@@ -330,4 +300,62 @@ if (document.querySelector('#btnActualizar')){
 .addEventListener('click', actualizarProveedor)
 
 }
+
+// const table = document.getElementById('tablaProveedores');
+// const pagination = document.getElementById('pagination');
+// const prevPageButton = document.getElementById('boton1');
+// const nextPageButton = document.getElementById('boton2');
+// const currentPageSpan = document.getElementById('currentPage');
+// let currentPage = 1;
+// const itemsPerPage = 9; // Cambia esto para ajustar la cantidad de filas por página
+
+// function showData(page) {
+//   const startIndex = (page - 1) * itemsPerPage;
+//   const endIndex = startIndex + itemsPerPage;
+//   const paginatedData = data.slice(startIndex, endIndex);
+
+//   table.tBodies[0].innerHTML = '';
+
+//   for (const item of paginatedData) {
+//     const row = table.tBodies[0].insertRow();
+//     row.insertCell(0).textContent = item.nombreContacto;
+//     row.insertCell(1).textContent = item.nit;
+//     row.insertCell(2).textContent = item.direccion;
+//     row.insertCell(3).textContent = item.correo;
+//     row.insertCell(4).textContent = item.estado;
+//     // Crear una nueva celda para las opciones
+//     const opcionesCell = row.insertCell(5);
+//     opcionesCell.className = 'opcion';
+
+//     // Agregar los elementos de opciones dentro de la celda
+//     opcionesCell.innerHTML = `
+//           <div class="opcion">
+//            <a href="visualizarAcudiente""><img src="../images/eye-svgrepo-com.svg" alt="icon" class="opc_eyes"onclick="enviarDatos()"></a> 
+//             <a href="editarAcudiente"><img src="../images/editar.png" alt="icon" class="opc_edit" ></a>
+// <img src="../images/borrar.png" alt="icon" class="opc_delete" onclick="eliminar()" >
+//           </div>
+//         `;
+//   }
+//   }
+  
+
+//   currentPage = page;
+//   currentPageSpan.textContent = currentPage;
+//   prevPageButton.disabled = currentPage === 1;
+//   nextPageButton.disabled = currentPage === Math.ceil(data.length / itemsPerPage);
+
+// prevPageButton.addEventListener('click', () => {
+//   if (currentPage > 1) {
+//     showData(currentPage - 1);
+//   }
+// });
+
+// nextPageButton.addEventListener('click', () => {
+//   if (currentPage < Math.ceil(data.length / itemsPerPage)) {
+//     showData(currentPage + 1);
+//   }
+// });
+
+// showData(currentPage); 
+// Mostrar la primera página al cargar la página
 

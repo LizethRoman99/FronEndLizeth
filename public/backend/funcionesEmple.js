@@ -1,6 +1,5 @@
-const url = 'http://localhost:8282/empleados';
-// let currentPage = 1; // Página actual
-// const itemsPerPage = 5;
+const url = 'https://proveedoresapi2.onrender.com/empleados';
+
 
 const listarEmpleados= async () => {
     // Objeto del html donde se desplegará la información
@@ -32,18 +31,18 @@ const listarEmpleados= async () => {
                 `<td class="icons">` +
                     `<div>` +
                         `<button type="button" class="btn" >` +
-                            `<img src="../img/pencil.ico" alt="" class="iconos-listar">` +
+                            `<img src="../img/pencil.ico" alt="" class="iconos-listar"  onclick="redireccionarEditar('${objetoEmpleados}')">` +
                         `</button>` +
                     `</div>` +
                     `<div>` +
                         
-                            `<button type="button" class="btn" >` +
+                            `<button type="button" class="btn" onclick="visualizar('${objetoEmpleados}')">` +
                                 `<img src="../img/show.ico" alt="" class="iconos-listar">` +
                             `</button>` +
                     `</div>` +
                     `<div>` +
                         `<button type="button" class="btn" >` +
-                            `<img src="../img/delete.ico" alt="" class="iconos-listar" >` +
+                            `<img src="../img/delete.ico" alt="" class="iconos-listar"  onclick="confirmarEliminar('${empleado.documento}')">` +
                         `</button>` +
                     `</div>` +
                     `<div class="form-check form-switch checkeo">` +
@@ -54,7 +53,7 @@ const listarEmpleados= async () => {
         });
         console.log(objectId);
         objectId.innerHTML= contenido;
-        // updatePagination();
+
     });
 }
 const agregarEmpleado = async (datosEmpleado) => {
@@ -124,83 +123,79 @@ const registrarEmpleado= () => {
     }
 
 }
-const actualizarProveedor= () => {
+const actualizarEmpleado= () => {
     
-    const nombreProveedor = document.getElementById('nombreCompleto').value
-    const nit = document.getElementById('documento').value
-    const direccion = document.getElementById('direccion').value
-    const correo = document.getElementById('celular').value
-    const nombreContacto = document.getElementById('contraseña').value
-    const numeroContacto = document.getElementById('numeroContacto').value
+    const nombre = document.getElementById('nombreCompleto').value;
+    const documento = document.getElementById('documento').value
+    const celular = document.getElementById('celular').value
+    const contraseña = document.getElementById('contraseña').value
+    const confirmacionContraseña = document.getElementById('confirmacionContraseña').value
+    const fechaNacimiento = document.getElementById('fechaNacimiento').value
+    const fechacontratacion = document.getElementById('fechacontratacion').value
+    const fechaTerminacion = document.getElementById('fechaTerminacion').value
+    const correo = document.getElementById('correo').value
 
-    if(nombreProveedor.length == 0){
-        document.getElementById('nombreHelp').innerHTML = 'Dato requerido'
-
+    if(nombre.length == 0){
+        document.getElementById('nombreHelp').innerHTML= 'Dato requerido'
     }
-    else if(nit.length == 0){
-        document.getElementById('NitHelp').innerHTML = 'Dato requerido'
+    else if(contraseña != confirmacionContraseña){
+        alert('Las contraseñas no coinciden')
     }
-    else if(direccion.length == 0){
-        document.getElementById('DireccionHelp').innerHTML = 'Dato requerido'
-    }
-    else if(correo.length == 0){
-        document.getElementById('CorreoHelp').innerHTML = 'Dato requerido'
-    }
-    else if(nombreContacto.length == 0){
-        document.getElementById('NombreContactoHelp').innerHTML = 'Dato requerido'
-    }
-    else if(numeroContacto.length == 0){
-        document.getElementById('NumerocontactoHelp').innerHTML = 'Dato requerido'
-    }
+   
     else{
-        let proveedor ={
-            // _id:document.getElementById('idProveedor').value,
-            nombreProveedor: nombreProveedor, //lo primero es la clave, lo segundo es lo que se va a enviar.
-            nit:nit,
-            direccion:direccion,
-            correo:correo,
-            nombreContacto:nombreContacto,
-            numeroContacto:numeroContacto
-
+        let empleado ={//variables de clave deben ser las mismas de la api
+            nombreCompleto:nombre,
+            documento: documento, //lo primero es la clave, lo segundo es lo que se va a enviar.
+            celular:celular,
+            contraseña: contraseña,
+            confirmacionContraseña:confirmacionContraseña,
+            fechaNacimiento:fechaNacimiento,
+            fechacontratacion:fechacontratacion,
+            fechaTerminacion:fechaTerminacion,
+            correo:correo
         }
+   
         //Fecth permite reaizar peticiones http a una url
         fetch(url, {
             method: 'PUT',
             mode: 'cors',
-            body: JSON.stringify(proveedor), //Convertir el objeto a JSON
+            body: JSON.stringify(empleado), //Convertir el objeto a JSON
             headers: {"Content-type": "application/json; charset=UTF-8"}
         })
         .then((res) => res.json())//Obtener respuesta de la petición
         .then(json => {
             console.log(json); 
             alert(json.msg)//Imprimir el mensaje de la transacción
-            listarProveedores();
+            listarEmpleados();
         })
     }
 
 }
-const redireccionarEditar=(objetoProveedores) =>{
-    document.location.href='/proveedores?proveedor='+objetoProveedores
+const redireccionarEditar=(objetoEmpleados) =>{
+    document.location.href='/empleados?empleado='+objetoEmpleados
   
 }
-const editarProveedor=() =>{ 
+const editarEmpleado=() =>{ 
     console.log('Entré a editarProveedor');
     var urlParams = new URLSearchParams(window.location.search);
-    document.getElementById('nombreProveedor').value =urlParams.get('nombreProveedor')
-    document.getElementById('nit').value =urlParams.get('nit')
-    document.getElementById('direccion').value =urlParams.get('direccion')
+    document.getElementById('nombreCompleto').value =urlParams.get('nombreCompleto')
+    document.getElementById('documento').value =urlParams.get('documento')
+    document.getElementById('celular').value =urlParams.get('celular')
+    document.getElementById('contraseña').value =urlParams.get('contraseña')
+    document.getElementById('confirmacionContraseña').value =urlParams.get('confirmacionContraseña')
+    document.getElementById('fechaNacimiento').value =urlParams.get('fechaNacimiento')
+    document.getElementById('fechacontratacion').value =urlParams.get('fechacontratacion')
+    document.getElementById('fechaTerminacion').value =urlParams.get('fechaTerminacion')
     document.getElementById('correo').value =urlParams.get('correo')
-    document.getElementById('nombreContacto').value =urlParams.get('nombreContacto')
-    document.getElementById('numeroContacto').value =urlParams.get('numeroContacto')
     document.getElementById('btnActualizar').style.display = 'block';
    
     verificarEditar();
     
 function verificarEditar() {
     var urlParams = new URLSearchParams(window.location.search);
-    var proveedor = urlParams.get('proveedor');
+    var empleado = urlParams.get('empleado');
   
-    if (proveedor) {
+    if (empleado) {
       // Estás en la página de edición
       document.getElementById('btnActualizar').style.display = 'block';
       document.getElementById('btnRegistrar').style.display = 'none'
@@ -210,6 +205,64 @@ function verificarEditar() {
     } 
 }
 }
+const visualizarEmpleado=() =>{ 
+    var urlParams = new URLSearchParams(window.location.search);
+    document.getElementById('nombreCompleto').value =urlParams.get('nombreCompleto')
+    document.getElementById('documento').value =urlParams.get('documento')
+    document.getElementById('celular').value =urlParams.get('celular')
+    document.getElementById('contraseña').value =urlParams.get('contraseña')
+    document.getElementById('confirmacionContraseña').value =urlParams.get('confirmacionContraseña')
+    document.getElementById('fechaNacimiento').value =urlParams.get('fechaNacimiento')
+    document.getElementById('fechacontratacion').value =urlParams.get('fechacontratacion')
+    document.getElementById('fechaTerminacion').value =urlParams.get('fechaTerminacion')
+    document.getElementById('correo').value =urlParams.get('correo')
+
+}
+
+const visualizar=(objetoEmpleados) =>{
+    document.location.href='/visualizarempleado?empleado='+objetoEmpleados
+}
+
+async function eliminarEmpleado(documento) {
+    try {
+        const response = await fetch(`http://localhost:8282/empleados?documento=${documento}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                // Puedes incluir otros encabezados si es necesario
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error al eliminar empleado: ${response.status} - ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        console.log('Empleado  eliminado:', data.msg);
+
+        // Puedes mostrar un mensaje de éxito al usuario si es necesario
+        alert('Proveedor eliminado exitosamente');
+
+        // Puedes realizar otras acciones aquí si es necesario
+    } catch (error) {
+        console.error('Error al eliminar empleado:', error.message);
+        // Puedes mostrar un mensaje de error al usuario si es necesario
+        alert('Error al eliminar empleado');
+        // Puedes manejar errores aquí según tus necesidades
+    }
+}
+
+function confirmarEliminar(documento) {
+    const confirmacion = confirm('¿Estás seguro de que deseas eliminar este empleado?');
+
+    if (confirmacion) {
+        // Llamar a la función eliminarProveedor con el nit del proveedor
+        eliminarEmpleado(documento);
+    } else {
+        console.log('Eliminación cancelada por el usuario.');
+    }
+}
+
 
 
 if (document.querySelector('#btnRegistrar')){ //Si objeto existe
@@ -219,5 +272,6 @@ if (document.querySelector('#btnRegistrar')){ //Si objeto existe
 
 if (document.querySelector('#btnActualizar')){
      document.querySelector('#btnActualizar')
- .addEventListener('click', actualizarProveedor)
+ .addEventListener('click', actualizarEmpleado)
 }
+

@@ -1,9 +1,16 @@
+document.addEventListener('DOMContentLoaded', function() {
+    // Tu código de inicialización aquí, incluyendo la asignación de la fecha actual al campo de fecha
+    var fechaContratacionInput = document.getElementById('fechacontratacion');
+    var fechaActual = new Date().toISOString().split('T')[0];
+    fechaContratacionInput.value = fechaActual;
+});
+
 function validarNombre() {
     var inputNombre = document.getElementById('nombreCompleto');
     var mensajeError = document.getElementById('mensajeError');
 
     // Expresión regular para validar que solo contiene letras y espacios
-    var regex = /^[A-Z][a-zA-Z\s]{10,49}$/
+    var regex = /^[A-Z][a-zA-ZñÑ\s]{9,48}$/
 
 
     if (regex.test(inputNombre.value)) {
