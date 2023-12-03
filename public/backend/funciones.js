@@ -1,4 +1,4 @@
-const url = 'http://localhost:8282/proveedores';
+const url = 'https://proveedoresapi2.onrender.com';
 let currentPage = 1; // Página actual
 const itemsPerPage = 5;
 
