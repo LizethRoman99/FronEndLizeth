@@ -246,7 +246,7 @@ const visualizar=(objetoEmpleados) =>{
 
 async function eliminarEmpleado(documento) {
     try {
-        const response = await fetch(`http://localhost:8282/empleados?documento=${documento}`, {
+        const response = await fetch(`https://proveedoresapi2.onrender.com/empleados?documento=${documento}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

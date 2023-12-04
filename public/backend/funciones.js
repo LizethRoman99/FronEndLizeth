@@ -265,7 +265,7 @@ const visualizar=(objetoProveedores) =>{
 // Función para eliminar un proveedor por su nit
 async function eliminarProveedor(nit) {
     try {
-        const response = await fetch(`http://localhost:8282/proveedores?nit=${nit}`, {
+        const response = await fetch(`https://proveedoresapi2.onrender.com/proveedores?nit=${nit}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
