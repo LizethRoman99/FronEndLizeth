@@ -146,8 +146,8 @@ app.get('/visualizarPedido', (req, res) => {
 })
 
 
-app.get('/visualizarProveedor', (req, res) => {
-    res.render('visualizarProveedor')//Redireccionar hacia el archivo de hbs
+app.get('/visualizarproveedor', (req, res) => {
+    res.render('visualizarproveedor')//Redireccionar hacia el archivo de hbs
 })
 
 app.get('*', (req, res) => {
