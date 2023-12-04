@@ -131,8 +131,8 @@ app.get('/visualizarCompra', (req, res) => {
     res.render('visualizarCompra')//Redireccionar hacia el archivo de hbs
 })
 
-app.get('/visualizarEmpleado', (req, res) => {
-    res.render('visualizarEmpleado')//Redireccionar hacia el archivo de hbs
+app.get('/visualizarempleado', (req, res) => {
+    res.render('visualizarempleado')//Redireccionar hacia el archivo de hbs
 })
 
 
