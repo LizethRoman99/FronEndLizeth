@@ -53,7 +53,7 @@ const listarProveedores = async () => {
         });
 
         objectId.innerHTML = contenido;
-        updatePagination();
+       
     });
 }
 
