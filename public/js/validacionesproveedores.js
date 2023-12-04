@@ -149,7 +149,12 @@ function validarFormulario() {
         
     } else {
         // Hay campos inválidos, muestra un mensaje de error
-        alert('Por favor, complete todos los campos correctamente.');
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Completa todos los campos",
+          
+          });
     }
 }
 

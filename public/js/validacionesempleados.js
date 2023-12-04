@@ -229,7 +229,12 @@ function validarFormulario() {
     if (todosLosCamposSonValidos()) {
       
     } else {
-        Swal.fire("corrige antes de enviar los datos ");
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Completa todos los campos",
+          
+          });
     }
 }
 
