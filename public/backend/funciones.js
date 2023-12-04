@@ -305,7 +305,7 @@ function confirmarEliminar(nit) {
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!"
+        confirmButtonText: "Aceptar"
       }).then((result) => {
         if (result.isConfirmed) {
             eliminarProveedor(nit);

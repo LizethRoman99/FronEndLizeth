@@ -290,12 +290,12 @@ async function eliminarEmpleado(documento) {
 
 function confirmarEliminar(documento) {
     Swal.fire({
-        title: "¿Estás seguro de que deseas eliminar este proveedor?",        
+        title: "¿Estás seguro de que deseas eliminar este empleado?",        
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "si, Cancelar!"
+        confirmButtonText: "Aceptar"
       }).then((result) => {
         if (result.isConfirmed) {
             eliminarEmpleado (documento);
