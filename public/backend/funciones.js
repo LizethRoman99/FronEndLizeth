@@ -116,7 +116,7 @@ const registrarProveedor= () => {
     else if(numeroContacto.length == 0){
         document.getElementById('NumerocontactoHelp').innerHTML = 'Dato requerido'
     }
-    else if(preciodolar.length == 0){
+    else if(precioDolar.length == 0){
         document.getElementById('NumerocontactoHelp').innerHTML = 'Dato requerido'
     }
     else{
