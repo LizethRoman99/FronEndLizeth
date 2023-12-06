@@ -1,4 +1,5 @@
 const url = 'https://proveedoresapi2.onrender.com/proveedores';
+// const url='http://localhost:8282/empleados'
 
 
 const listarProveedores = async () => {
@@ -92,6 +93,7 @@ const registrarProveedor= () => {
     const correo = document.getElementById('correo').value
     const nombreContacto = document.getElementById('nombreContacto').value
     const numeroContacto = document.getElementById('numeroContacto').value
+    const precioDolar = document.getElementById('precioDolar').value
     
   
 
@@ -114,6 +116,9 @@ const registrarProveedor= () => {
     else if(numeroContacto.length == 0){
         document.getElementById('NumerocontactoHelp').innerHTML = 'Dato requerido'
     }
+    else if(preciodolar.length == 0){
+        document.getElementById('NumerocontactoHelp').innerHTML = 'Dato requerido'
+    }
     else{
         let proveedor ={//variables de clave deben ser las mismas de la api
             nombreProveedor: nombreProveedor, //lo primero es la clave, lo segundo es lo que se va a enviar.
@@ -121,7 +126,8 @@ const registrarProveedor= () => {
             direccion: direccion,
             correo:correo,
             nombreContacto:nombreContacto,
-            numeroContacto:numeroContacto
+            numeroContacto:numeroContacto,
+            precioDolar:precioDolar
 
         }
         //body= JSON.stringify(proveedor)
@@ -159,6 +165,8 @@ const actualizarProveedor= () => {
     const correo = document.getElementById('correo').value
     const nombreContacto = document.getElementById('nombreContacto').value
     const numeroContacto = document.getElementById('numeroContacto').value
+    const precioDolar = document.getElementById('precioDolar').value
+   
 
     if(nombreProveedor.length == 0){
         document.getElementById('nombreHelp').innerHTML = 'Dato requerido'
@@ -179,6 +187,9 @@ const actualizarProveedor= () => {
     else if(numeroContacto.length == 0){
         document.getElementById('NumerocontactoHelp').innerHTML = 'Dato requerido'
     }
+    else if(precioDolar.length == 0){
+        document.getElementById('NumerocontactoHelp').innerHTML = 'Dato requerido'
+    }
     else{
         let proveedor ={
             // _id:document.getElementById('idProveedor').value,
@@ -187,7 +198,8 @@ const actualizarProveedor= () => {
             direccion:direccion,
             correo:correo,
             nombreContacto:nombreContacto,
-            numeroContacto:numeroContacto
+            numeroContacto:numeroContacto,
+            precioDolar:precioDolar
 
         }
         //Fecth permite reaizar peticiones http a una url
@@ -227,6 +239,7 @@ const editarProveedor=() =>{
     document.getElementById('correo').value =urlParams.get('correo')
     document.getElementById('nombreContacto').value =urlParams.get('nombreContacto')
     document.getElementById('numeroContacto').value =urlParams.get('numeroContacto')
+    document.getElementById('precioDolar').value =urlParams.get('precioDolar')
     document.getElementById('btnActualizar').style.display = 'block';
    
     verificarEditar();
@@ -255,6 +268,7 @@ const visualizarProveedor=() =>{
     document.getElementById('correo').value =urlParams.get('correo')
     document.getElementById('nombreContacto').value =urlParams.get('nombreContacto')
     document.getElementById('numeroContacto').value =urlParams.get('numeroContacto')
+    document.getElementById('precioDolar').value =urlParams.get('precioDolar')
 
 }
 

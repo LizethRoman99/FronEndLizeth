@@ -1,4 +1,5 @@
 const url = 'https://proveedoresapi2.onrender.com/empleados';
+// const url='http://localhost:8282/empleados';
 
 const regresarListar = () => {
     window.location.href = '/listarempleados';
